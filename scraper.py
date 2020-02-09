@@ -1,28 +1,12 @@
 import sys
+import getopt
 import os
 import urllib.request
 import re
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 import mmap
-
-
-
-
-
-
-#global variables
-root_file_path = "/media/darg1/Data/Projects/erhan_tez" #path of vocabulary and output folder
-vocab_file_name = "word_vocab.txt"
-limit = 1000 #number of urls to download for each keyword in dictionary
-urls = {}
-
-#supported image extensions of wikimedia commons
-image_extensions = ["jpg","jpeg","jpe","png","apng","gif","tiff","tif","xcf","webp"]
-
-#wikimedia urls
-url_prefix = "https://commons.wikimedia.org"
-page2parse = "https://commons.wikimedia.org/w/index.php?sort=relevance&title=Special:Search&profile=advanced&fulltext=1&advancedSearch-current=%7B%7D&ns0=1&ns6=1&ns12=1&ns14=1&ns100=1&ns106=1"#url of advance search page
+from parameters import PARAM
 
 
 
@@ -31,16 +15,35 @@ page2parse = "https://commons.wikimedia.org/w/index.php?sort=relevance&title=Spe
 
 
 
-def main():
+def main(argv):
+
+	#process the arguments
+	try:
+		arguments, values = getopt.getopt(argv,"i:o:",["ifile=","ofile="])
+		if len(arguments) is not 2:
+			raise ValueError()
+		else:
+			for argument, value in arguments:
+				if argument in ("-i", "--input"):
+					PARAM.vocab_filename = value
+				elif argument in ("-o", "--output"):
+					PARAM.output_filename = value		
+	except (getopt.error, ValueError) as e:
+		print("Wrong usage of arguments!")
+		print("\tCorrect Usage: python3 scraper.py -i <input file name> -o <output file name>")
+		return 0
+
+
+
+	#parse vocab file and retrieve each image associated with it
 	word_counter = 0
-
 	print("---> Started retrieving URL of images from wikimedia commons")
-	file_path = os.path.join(root_file_path, vocab_file_name)
+	file_path = os.path.join(PARAM.root_filepath, PARAM.vocab_filename)
 	with open(file_path, "r") as file:
 		for line in tqdm(file, total=get_num_lines(file_path)):
 			word_counter += 1
 			word = line.strip(" ")
-			searchURL = page2parse + "&limit=" + str(limit) + "&search=" + word
+			searchURL = PARAM.page2parse + "&limit=" + str(PARAM.limit) + "&search=" + word
 			count = retrieveURLs(searchURL)
 			#print("Found: " + str(count) + " url(s) for " + word)
 			#print(len(urls))
@@ -48,7 +51,7 @@ def main():
 
 	#save urls to file
 	print("---> Started writing urls to txt file")
-	with open(os.path.join(root_file_path, "wikimediacommons_photo_links.txt"), "w") as output_file:
+	with open(os.path.join(PARAM.root_filepath, PARAM.output_filename), "w") as output_file:
 		for key,value in urls.items():
 			output_file.write(key + "\n")
 		
@@ -75,8 +78,8 @@ def retrieveURLs(url2parse):
 
 	for item in searchresults:
 		link_suffix = item.find("a").get("href")
-		if link_suffix.split(".")[-1] in image_extensions:
-			urls[url_prefix+link_suffix]=0
+		if link_suffix.split(".")[-1] in PARAM.image_extensions:
+			urls[PARAM.url_prefix+link_suffix]=0
 			url_counter += 1
 
 	return url_counter 
@@ -96,8 +99,8 @@ def get_num_lines(file_path):
 
 
 
-
+urls = {}
 if __name__ == "__main__":
-	main()
+	main(sys.argv[1:])
 
 
