@@ -18,9 +18,6 @@ class parameters(object):
 		self.page2parse = "https://commons.wikimedia.org/w/index.php?sort=relevance&title=Special:Search&profile=advanced&fulltext=1&advancedSearch-current=%7B%7D&ns0=1&ns6=1&ns12=1&ns14=1&ns100=1&ns106=1"#url of advance search page
 
 
-		
-		#DATA PROCESSING PARAMETERS
-		self.divideby = 100
 
 
 PARAM = parameters()

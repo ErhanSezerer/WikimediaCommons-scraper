@@ -7,11 +7,12 @@ from parameters import PARAM
 
 
 
-def main():
+def main(divideby):
+	divideby = int(divideby)
 	words = []
 	word_count = 0
 
-	print("---> Started slicing data into " + str(PARAM.divideby) + " parts")
+	print("---> Started slicing data into " + str(divideby) + " parts")
 
 	#read the original vocabulary
 	file_path = os.path.join(PARAM.root_filepath, PARAM.vocab_filename)
@@ -23,15 +24,15 @@ def main():
 
 
 	#divide it into separate files
-	chunk_size = word_count // PARAM.divideby 
-	for i in range(PARAM.divideby):
+	chunk_size = word_count // divideby 
+	for i in range(divideby):
 		chunk = []
-		if i == PARAM.divideby-1:
+		if i == divideby-1:
 			chunk = words[i*chunk_size:-1]
 		else:
 			chunk = words[i*chunk_size:i*chunk_size+chunk_size]
 
-		file_path = os.path.join(PARAM.root_filepath, str("tmp_vocab_"+i+".txt"))
+		file_path = os.path.join(PARAM.root_filepath, "tmp_vocab_"+str(i)+".txt")
 		tmp_file = open(file_path, "w")
 
 		for word in chunk:
@@ -45,4 +46,14 @@ def main():
 
 
 if __name__ == "__main__":
-	main()
+	if len(sys.argv) is not 2:
+		print("Wrong usage of arguments")
+		print("\tCorrect usage: data_divider.py <# of chunks>")
+	else:
+		main(sys.argv[1])
+
+
+
+
+
+
