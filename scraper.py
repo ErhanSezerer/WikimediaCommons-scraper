@@ -16,6 +16,8 @@ from parameters import PARAM
 
 
 def main(argv):
+	input_file = ""
+	output_file = ""
 
 	#process the arguments
 	try:
@@ -25,9 +27,9 @@ def main(argv):
 		else:
 			for argument, value in arguments:
 				if argument in ("-i", "--input"):
-					PARAM.vocab_filename = value
+					input_file = value
 				elif argument in ("-o", "--output"):
-					PARAM.output_filename = value		
+					output_file = value		
 	except (getopt.error, ValueError) as e:
 		print("Wrong usage of arguments!")
 		print("\tCorrect Usage: python3 scraper.py -i <input file name> -o <output file name>")
@@ -38,7 +40,7 @@ def main(argv):
 	#parse vocab file and retrieve each image associated with it
 	word_counter = 0
 	print("---> Started retrieving URL of images from wikimedia commons")
-	file_path = os.path.join(PARAM.root_filepath, PARAM.vocab_filename)
+	file_path = os.path.join(PARAM.root_filepath, input_file)
 	with open(file_path, "r") as file:
 		for line in tqdm(file, total=get_num_lines(file_path)):
 			word_counter += 1
@@ -51,7 +53,7 @@ def main(argv):
 
 	#save urls to file
 	print("---> Started writing urls to txt file")
-	with open(os.path.join(PARAM.root_filepath, PARAM.output_filename), "w") as output_file:
+	with open(os.path.join(PARAM.root_filepath, output_file), "w") as output_file:
 		for key,value in urls.items():
 			output_file.write(key + "\n")
 		
