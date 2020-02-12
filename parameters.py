@@ -5,8 +5,9 @@ class parameters(object):
 		#SCRAPER PARAMETERS
 		#global variables
 		self.root_filepath = "/media/darg1/Data/Projects/erhan_tez/WikimediaCommons-scraper/data"
+		self.processed_datapath = "/media/darg1/Data/Projects/erhan_tez/WikimediaCommons-scraper/data/final"
 		self.vocab_filename = "word_vocab.txt"
-		self.output_filename = "wikimediacommons_photo_links.txt"
+		self.output_filename = "wikimediacommons_page_links.txt"
 		self.limit = 1000 #number of urls to download for each keyword in dictionary
 		self.urls = {}
 
