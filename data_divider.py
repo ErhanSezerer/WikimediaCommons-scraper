@@ -1,5 +1,6 @@
 import os
 import sys
+from tqdm import tqdm
 from parameters import PARAM
 
 
@@ -8,7 +9,6 @@ from parameters import PARAM
 
 
 def main(divideby):
-	divideby = int(divideby)
 	words = []
 	word_count = 0
 
@@ -25,7 +25,7 @@ def main(divideby):
 
 	#divide it into separate files
 	chunk_size = word_count // divideby 
-	for i in range(divideby):
+	for i in tqdm(range(divideby)):
 		chunk = []
 		if i == divideby-1:
 			chunk = words[i*chunk_size:-1]
@@ -36,7 +36,7 @@ def main(divideby):
 		tmp_file = open(file_path, "w")
 
 		for word in chunk:
-			tmp_file.write(word + "\n")
+			tmp_file.write(word)
 				
 
 
@@ -50,7 +50,7 @@ if __name__ == "__main__":
 		print("Wrong usage of arguments")
 		print("\tCorrect usage: data_divider.py <# of chunks>")
 	else:
-		main(sys.argv[1])
+		main(int(sys.argv[1]))
 
 
 
