@@ -39,6 +39,8 @@ def parsePage(url2parse):
 	except AttributeError:
 		#print("Attribute Error: search word not found")
 		return 0
+	except: 
+		return 0
 
 	print(caption)
 	print(decription)
