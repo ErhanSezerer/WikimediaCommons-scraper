@@ -10,7 +10,6 @@ def main(dividedby):
 	urls = {}
 	filename_prefix = "wikimedia_imagelinks_"
 
-
 	#combine all files into single dict
 	print("---> Started combining data from " + str(dividedby) + " parts into a single file")
 	for i in tqdm(range(dividedby)):
@@ -20,16 +19,11 @@ def main(dividedby):
 		for url in vocab_file:
 			urls[url] = 0
 
-
 	#save urls to file
 	print("---> Started writing urls to txt file")
 	with open(os.path.join(PARAM.root_filepath, PARAM.output_filename), "w") as output_file:
 		for key,value in urls.items():
 			output_file.write(key)
-
-
-
-
 
 
 
