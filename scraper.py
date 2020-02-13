@@ -77,6 +77,8 @@ def retrieveURLs(url2parse):
 	except AttributeError:
 		#print("Attribute Error: search word not found")
 		return 0
+	except:
+		return 0
 
 	for item in searchresults:
 		link_suffix = item.find("a").get("href")
