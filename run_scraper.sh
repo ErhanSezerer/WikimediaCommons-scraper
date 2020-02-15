@@ -1,15 +1,22 @@
 #!/bin/sh
 
-
-divideby=16
+#divide the vocab into (divideby) pieces and process chunk by chunk (for memory concerns)
+divideby=100
+chunk=10
 input_filename="tmp_vocab_"
 output_filename="wikimedia_imagelinks_"
 extention=".txt"
 
 python3 data_divider.py $divideby
 
-
-for i in $(seq 0 $((divideby-1)))
+for i in $(seq 0 $((divideby/chunk-1)))
 do
-	python3 scraper.py -i "$input_filename$i$extention" -o "$output_filename$i$extention" &
+	index=$(($i*$chunk))
+	for j in $(seq 0 $((chunk-2)))
+	do
+		fileno=$(($index+$j))
+		python3 scraper.py -i "$input_filename$j$extention" -o "$output_filename$j$extention" &
+	done
+	fileno=$(($index+$j+1))
+	python3 scraper.py -i "$input_filename$j$extention" -o "$output_filename$j$extention"
 done
