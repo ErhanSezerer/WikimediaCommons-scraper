@@ -15,8 +15,8 @@ do
 	for j in $(seq 0 $((chunk-2)))
 	do
 		fileno=$(($index+$j))
-		python3 scraper.py -i "$input_filename$j$extention" -o "$output_filename$j$extention" &
+		python3 scraper.py -i "$input_filename$fileno$extention" -o "$output_filename$fileno$extention" &
 	done
 	fileno=$(($index+$j+1))
-	python3 scraper.py -i "$input_filename$j$extention" -o "$output_filename$j$extention"
+	python3 scraper.py -i "$input_filename$fileno$extention" -o "$output_filename$fileno$extention"
 done

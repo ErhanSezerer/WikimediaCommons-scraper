@@ -39,7 +39,7 @@ def main(argv):
 
 	#parse vocab file and retrieve each image associated with it
 	word_counter = 0
-	print("---> Started retrieving URL of images from wikimedia commons")
+	print("---> Started retrieving URL of images from wikimedia commons ("+ str(input_file) +")")
 	file_path = os.path.join(PARAM.root_filepath, input_file)
 	with open(file_path, "r") as file:
 		for line in tqdm(file, total=get_num_lines(file_path)):
@@ -52,7 +52,7 @@ def main(argv):
 
 
 	#save urls to file
-	print("---> Started writing urls to txt file")
+	print("---> Started writing urls to txt file ("+ str(output_file) +")")
 	with open(os.path.join(PARAM.root_filepath, output_file), "w") as output_file:
 		for key,value in urls.items():
 			output_file.write(key + "\n")
