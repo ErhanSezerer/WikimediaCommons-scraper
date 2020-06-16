@@ -4,10 +4,11 @@ class parameters(object):
 
 		#SCRAPER PARAMETERS
 		#global variables
-		self.root_filepath = "/media/darg1/Data/Projects/erhan_tez/WikimediaCommons-scraper/data"
-		self.processed_datapath = "/media/darg1/Data/Projects/erhan_tez/WikimediaCommons-scraper/data/final"
+		self.root_filepath = "/media/darg3/5EDD3D191C555EB5/WikimediaCommons-scraper/data"
+		self.processed_datapath = "/media/darg3/5EDD3D191C555EB5/WikimediaCommons-scraper/data/final"
 		self.vocab_filename = "word_vocab.txt"
 		self.output_filename = "wikimediacommons_page_links.txt"
+		self.csv_data_filename = "wikimedia_data.csv"
 		self.limit = 1000 #number of urls to download for each keyword in dictionary
 		self.urls = {}
 

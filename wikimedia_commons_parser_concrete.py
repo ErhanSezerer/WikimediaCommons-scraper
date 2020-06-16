@@ -31,10 +31,11 @@ def main(argv):
 		print("\tCorrect Usage: python3 scraper.py -i <input file name> -o <output file name>")
 		return 0
 
-	file_path = os.path.join(PARAM.root_filepath, "tmp_links")
+
+	file_path = os.path.join(PARAM.root_filepath, "tmp_links_concrete")
 	file_path = os.path.join(file_path, input_file)
-	link_file = open(file_path, "r")
-	df_wikimedia = pd.DataFrame(columns=['caption','description','image_link','url'])
+	link_file = open(file_path, "r") 
+	df_wikimedia = pd.DataFrame(columns=['word','caption','description','image_link','url'])
 
 	#start parsing wikimedia for each url in file
 	#count=0
@@ -44,18 +45,19 @@ def main(argv):
 			#count+=1
 			#if count == 100:
 				#break
-			url = line.strip()
+			url = line.strip().split(":::")[0]
+			word = line.strip().split(":::")[1]
 			cap, desc, link = parsePage(url)
 			if cap==None and desc==None and link==None:
 				print("wtf")
 			else:
-				df_wikimedia = df_wikimedia.append({'caption':cap,'description':desc,'image_link':link,'url':url}, ignore_index=True)
+				df_wikimedia = df_wikimedia.append({'word':word,'caption':cap,'description':desc,'image_link':link,'url':url}, ignore_index=True)
 
 	#save data to file
 	print("---> Started writing data to csv file ("+ str(output_file) +")...")
-	file_path = os.path.join(PARAM.root_filepath, "tmp_links_output")
+	file_path = os.path.join(PARAM.root_filepath, "tmp_links_concrete_output")
 	output_file_path = os.path.join(file_path, output_file)
-	df_wikimedia.to_csv(output_file_path, index=False, sep="\t")
+	df_wikimedia.to_csv(output_file_path, index=False)
 
 
 
